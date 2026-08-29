@@ -1,4 +1,7 @@
 const authRoutes = require("./src/routes/authRoutes");
+const campaignRoutes = require("./src/routes/campaignRoutes");
+const donationRoutes = require("./src/routes/donationRoutes");
+const notificationRoutes = require("./src/routes/notificationRoutes");
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -13,9 +16,6 @@ dotenv.config();
 const app = express();
 
 const PORT = process.env.PORT || 5000;
-
-// Database
-connectDB();
 
 // Security
 app.use(helmet());
@@ -49,6 +49,9 @@ app.use("/api", limiter);
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/campaigns", campaignRoutes);
+app.use("/api", donationRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
@@ -59,7 +62,13 @@ app.get("/api/health", (req, res) => {
   });
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`Kaalmo Backend running on port ${PORT}`);
-});
+// Connect and listen only for the production entry point. Exporting the app lets
+// integration tests use it without opening a port or a second database connection.
+if (require.main === module) {
+  connectDB();
+  app.listen(PORT, () => {
+    console.log(`Kaalmo Backend running on port ${PORT}`);
+  });
+}
+
+module.exports = app;

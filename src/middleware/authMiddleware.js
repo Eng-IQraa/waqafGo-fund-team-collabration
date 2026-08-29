@@ -62,6 +62,12 @@ const protect = async (req, res, next) => {
   }
 };
 
+// Public endpoints can use this to attach a user when a valid bearer token is
+// supplied, while still permitting guest access when no token is present.
+const optionalProtect = async (req, res, next) => {
+  if (!req.headers.authorization) return next();
+  return protect(req, res, next);
+};
 
 
 const authorizeRoles = (...allowedRoles) => {
@@ -89,4 +95,4 @@ const authorizeRoles = (...allowedRoles) => {
 
 const authorize = authorizeRoles;
 
-module.exports = { protect, authorize, authorizeRoles };
+module.exports = { protect, optionalProtect, authorize, authorizeRoles };

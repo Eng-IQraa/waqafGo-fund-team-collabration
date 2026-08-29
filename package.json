@@ -2,11 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
- "scripts": {
-  "dev": "nodemon server.js",
-  "start": "node server.js",
-  "migrate:organizer-roles": "node scripts/migrateOrganizerRoles.js"
-},
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "jest --detectOpenHandles --runInBand",
+    "migrate:organizer-roles": "node scripts/migrateOrganizerRoles.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,6 +24,14 @@
     "mongoose": "^9.9.4"
   },
   "devDependencies": {
-    "nodemon": "^3.1.14"
+    "jest": "^30.2.0",
+    "mongodb-memory-server": "^11.0.1",
+    "nodemon": "^3.1.14",
+    "supertest": "^7.1.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": ["<rootDir>/tests/setup.js"],
+    "testMatch": ["<rootDir>/tests/**/*.test.js"]
   }
 }
