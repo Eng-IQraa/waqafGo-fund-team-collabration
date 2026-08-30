@@ -1,4 +1,5 @@
 const authRoutes = require("./src/routes/authRoutes");
+const campaignRoutes = require("./src/routes/campaignRoutes");
 const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
@@ -49,6 +50,7 @@ app.use("/api", limiter);
 
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/campaigns", campaignRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {
